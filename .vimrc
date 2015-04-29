@@ -6,11 +6,7 @@ let &t_Co=256
 colorscheme Tomorrow-Night
 syntax on
 
-"" Remaps
-imap jk <Esc>
-imap kj <Esc>
-
-let mapleader = ","
+let mapleader = "\<Space>"
 
 "" Pathogen
 execute pathogen#infect()
@@ -23,18 +19,42 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "" nerdcommenter
 filetype plugin on
 
-"" leader maps
+"" ==========  Leader commands  ==========
+
+"" escape keys
+imap jk <Esc>
+imap kj <Esc>
+
+map <Leader>w :w<CR>
+map <Leader>q :q<CR>
+map <Leader>z :sp<CR>
+
+"" system yank, paste, delete
+map <Leader>y "+y
+map <Leader>p "+p
+map <Leader>d "+d
+
+"" leader-i to properly indent lines depending on filetype
+map <Leader>i mzgg=G`z
+
+"" debugging
+map <Leader>ll oconsole.log('');<ESC>hhi
+map <Leader>dg odebugger;<ESC>
+nmap <Leader>x orequire "pry"<CR>binding.pry<ESC>;
+nmap <Leader>b orequire "byebug"<CR>byebug<ESC>;
+
+"" misc
+noremap <Leader>o :CtrlP<CR>
+map <Leader>db :e db/schema.rb<cr>
+map <Leader>rn :set relativenumber<cr>
+map <Leader>nn :set number<cr>
+map <Leader>nu :set nu!<cr>
+map <Leader>sp :set paste<cr>
+map <Leader>np :set nopaste<cr>
+
+"" tmux commands
 map <Leader>rs :w %<cr>:call VimuxRunCommand("clear; bundle exec rspec")<CR>
 map <Leader>rj :w %<cr>:call VimuxRunCommand("clear; jasmine-node --verbose " . bufname("%"))<cr>
-map <Leader>db :e db/schema.rb<cr>
-
-"" rainbow parens
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle = 0
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
 
 "" ==========  These come from Mislav (http://mislav.uniqpath.com/2011/12/vim-revisited/)  ==========
 set nocompatible                " choose no compatibility with legacy vi
@@ -60,7 +80,6 @@ set noswapfile                                      " no swap files
 set scrolloff=4                                     " adds top/bottom buffer between cursor and window
 set cursorline                                      " colours the line the cursor is on
 set relativenumber                                  " line numbers
-nmap <Leader>p orequire "pry"<CR>binding.pry<ESC>;  " pry insertion
 vnoremap . :norm.<CR>                               " in visual mode, "." will for each line, go into normal mode and execute the "."
 
 " easier navigation between split windows
